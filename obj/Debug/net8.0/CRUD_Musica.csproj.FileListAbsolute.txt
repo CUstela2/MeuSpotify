@@ -166,3 +166,4 @@ C:\Users\426115624\Documents\CRUD_Musica\obj\Debug\net8.0\refint\CRUD_Musica.dll
 C:\Users\426115624\Documents\CRUD_Musica\obj\Debug\net8.0\CRUD_Musica.pdb
 C:\Users\426115624\Documents\CRUD_Musica\obj\Debug\net8.0\CRUD_Musica.genruntimeconfig.cache
 C:\Users\426115624\Documents\CRUD_Musica\obj\Debug\net8.0\ref\CRUD_Musica.dll
+C:\Users\426115624\Documents\CRUD_Musica\obj\Debug\net8.0\CRUD_Musica.sourcelink.json

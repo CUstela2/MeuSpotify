@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+form input, form label, form button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#musicaList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.musica-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #e9ecef;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.musica-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.musica-item div {
+  flex-grow: 1;
+}
+
+.musica-item button {
+  background-color: #28a745;
+  width: 80px;
+  padding: 6px;
+}
+
+.musica-item button:hover {
+  background-color: #19692c;
+}

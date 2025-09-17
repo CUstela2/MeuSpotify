@@ -12,6 +12,7 @@ namespace CRUD_Musica.Models
         public string Artista { get; set; }
         public string Genero { get; set; }
         public int Duracao { get; set; }
-         public byte[] ArquivoComprimido { get; set; }
+        public byte[] ArquivoComprimido { get; set; }
+        public byte[] CapaDoAlbum { get; set; }
     }
 }

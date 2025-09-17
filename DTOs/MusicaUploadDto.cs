@@ -9,5 +9,6 @@ namespace CRUD_Musica.DTOs
         public string Genero { get; set; }
         public int Duracao { get; set; }
         public IFormFile Arquivo { get; set; }
+        public IFormFile Capa { get; set; }
     }
 }

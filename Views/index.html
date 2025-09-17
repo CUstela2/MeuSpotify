@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRUD Música</title>
+  <link rel="stylesheet" href="./Style/style.css" />
+  <link rel="icon" href="data:,">
+
+</head>
+<body>
+  <div class="container">
+    <h1>CRUD Música</h1>
+
+    <form id="uploadForm">
+      <h2>Adicionar Música</h2>
+      <input type="text" id="titulo" placeholder="Título" required />
+      <input type="text" id="artista" placeholder="Artista" required />
+      <input type="text" id="genero" placeholder="Gênero" required />
+      <input type="number" id="duracao" placeholder="Duração (segundos)" required />
+      
+      <label for="arquivo">Arquivo da música (MP3, WAV...):</label>
+      <input type="file" id="arquivo" accept="audio/*" required />
+      
+      <label for="capa">Capa do álbum (JPEG, PNG):</label>
+      <input type="file" id="capa" accept="image/*" />
+      
+      <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Lista de Músicas</h2>
+    <ul id="musicaList"></ul>
+
+    <audio id="audioPlayer" controls></audio>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

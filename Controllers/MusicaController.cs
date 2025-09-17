@@ -81,10 +81,19 @@ namespace CRUD_Musica.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> AdicionarMusicaComArquivo([FromForm] MusicaUploadDto musicaDto)
         {
-            using var memoryStream = new MemoryStream();
-            await musicaDto.Arquivo.CopyToAsync(memoryStream);
+            // Comprime o arquivo da música
+            using var memoryStreamMusica = new MemoryStream();
+            await musicaDto.Arquivo.CopyToAsync(memoryStreamMusica);
+            var arquivoComprimido = Compress(memoryStreamMusica.ToArray());
 
-            var arquivoComprimido = Compress(memoryStream.ToArray());
+            // Comprime a capa do álbum se existir
+            byte[] imagemCapaBytes = null;
+            if (musicaDto.Capa != null)
+            {
+                using var memoryStreamCapa = new MemoryStream();
+                await musicaDto.Capa.CopyToAsync(memoryStreamCapa);
+                imagemCapaBytes = Compress(memoryStreamCapa.ToArray());
+            }
 
             var musica = new Musica
             {
@@ -92,13 +101,26 @@ namespace CRUD_Musica.Controllers
                 Artista = musicaDto.Artista,
                 Genero = musicaDto.Genero,
                 Duracao = musicaDto.Duracao,
-                ArquivoComprimido = arquivoComprimido
+                ArquivoComprimido = arquivoComprimido,
+                CapaDoAlbum = imagemCapaBytes
             };
 
             _context.Musicas.Add(musica);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(ObterMusicaPorTitulo), new { titulo = musica.Titulo }, musica);
+        }
+        [HttpGet("GetCover/{id}")]
+        public IActionResult GetCover(int id)
+        {
+            var musica = _context.Musicas.Find(id);
+            if (musica == null || musica.CapaDoAlbum == null)
+                return NotFound();
+
+            var capaDescomprimida = Decompress(musica.CapaDoAlbum);
+
+            // Ajuste o content-type conforme o formato da imagem que você espera (jpeg, png...)
+            return File(capaDescomprimida, "image/jpeg");
         }
 
         // Método para comprimir bytes usando GZip
@@ -111,5 +133,31 @@ namespace CRUD_Musica.Controllers
             }
             return compressedStream.ToArray();
         }
+        private byte[] Decompress(byte[] compressedData)
+        {
+            using var compressedStream = new MemoryStream(compressedData);
+            using var gzipStream = new System.IO.Compression.GZipStream(compressedStream, System.IO.Compression.CompressionMode.Decompress);
+            using var resultStream = new MemoryStream();
+            gzipStream.CopyTo(resultStream);
+            return resultStream.ToArray();
+        }
+        [HttpGet("PlayMusic/{id}")]
+        public IActionResult TocarMusica(int id)
+        {
+            var musica = _context.Musicas.Find(id);
+            if (musica == null || musica.ArquivoComprimido == null)
+                return NotFound();
+
+            var arquivoDescomprimido = Decompress(musica.ArquivoComprimido);
+
+            var stream = new MemoryStream(arquivoDescomprimido);
+
+            return new FileStreamResult(stream, "audio/mpeg")
+            {
+                FileDownloadName = $"{musica.Titulo}.mp3"
+            };
+        }
+
+
     }
 }
