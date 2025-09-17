@@ -1,0 +1,6 @@
+@CRUD_Musica_HostAddress = http://localhost:5173
+
+GET {{CRUD_Musica_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
