@@ -50,9 +50,8 @@ namespace CRUD_Musica.Controllers
             if (musica == null) return NotFound();
             return Ok(musica);
         }
-
         [HttpPut("UpdateMusicByTitle/{titulo}")]
-        public IActionResult AtualizarMusica(string titulo, Musica musicaAtualizada)
+        public IActionResult AtualizarMusica(string titulo, MusicaMetadataUpdateDto musicaAtualizada)
         {
             var musica = _context.Musicas.FirstOrDefault(m => m.Titulo == titulo);
             if (musica == null) return NotFound();

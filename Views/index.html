@@ -6,34 +6,110 @@
   <title>CRUD Música</title>
   <link rel="stylesheet" href="./Style/style.css" />
   <link rel="icon" href="data:,">
-
 </head>
 <body>
-  <div class="container">
-    <h1>CRUD Música</h1>
+  <header class="site-header">
+  <div class="logo">
+    <h1>Spotify do Vini</h1>
+  </div>
+  <nav class="social-icons">
+    <a href="https://www.instagram.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+    </a>
+    <a href="https://wa.me/55" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+    </a>
+    <a href="https://www.facebook.com" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+    </a>
+  </nav>
+</header>
 
-    <form id="uploadForm">
+  <div class="container-horizontal">
+    <!-- Coluna 1: Adicionar Música -->
+    <div class="coluna">
       <h2>Adicionar Música</h2>
-      <input type="text" id="titulo" placeholder="Título" required />
-      <input type="text" id="artista" placeholder="Artista" required />
-      <input type="text" id="genero" placeholder="Gênero" required />
-      <input type="number" id="duracao" placeholder="Duração (segundos)" required />
-      
-      <label for="arquivo">Arquivo da música (MP3, WAV...):</label>
-      <input type="file" id="arquivo" accept="audio/*" required />
-      
-      <label for="capa">Capa do álbum (JPEG, PNG):</label>
-      <input type="file" id="capa" accept="image/*" />
-      
-      <button type="submit">Enviar</button>
-    </form>
+      <form id="uploadForm">
+        <input type="text" id="titulo" placeholder="Título" required />
+        <input type="text" id="artista" placeholder="Artista" required />
+        <input type="text" id="genero" placeholder="Gênero" required />
+        <input type="number" id="duracao" placeholder="Duração (segundos)" required />
 
-    <h2>Lista de Músicas</h2>
-    <ul id="musicaList"></ul>
+        <div class="input-file-container">
+          <input type="file" id="arquivo" accept="audio/*" required />
+          <label for="arquivo">Escolher arquivo da música</label>
+          <span class="file-name">Nenhum arquivo selecionado</span>
+        </div>
 
-    <audio id="audioPlayer" controls></audio>
+        <div class="input-file-container">
+          <input type="file" id="capa" accept="image/*" />
+          <label for="capa">Escolher capa do álbum</label>
+          <span class="file-name">Nenhum arquivo selecionado</span>
+        </div>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <!-- Coluna 2: Buscar Música -->
+    <div class="coluna">
+      <h2>Buscar Música</h2>
+      <div class="busca-grupo">
+        <input type="text" id="buscarTitulo" placeholder="Buscar por título" />
+        <button id="btnBuscarTitulo">Buscar</button>
+
+
+        <h2>
+
+
+        </h2>
+      </div>
+      <div class="busca-grupo">
+        <input type="text" id="buscarArtista" placeholder="Buscar por artista" />
+        <button id="btnBuscarArtista">Buscar</button>
+        <h2>  
+
+
+
+          
+        </h2>
+      </div>
+      
+      <button id="btnListarTudo">Listar Todas</button>
+    </div>
+
+    <!-- Coluna 3: Lista de Músicas -->
+    <div class="coluna">
+      <h2>Lista de Músicas</h2>
+      <ul id="musicaList"></ul>
+      <audio id="audioPlayer" controls></audio>
+    </div>
+  </div>
+
+  <!-- Modal de Edição -->
+  <div id="editModal" style="display:none;">
+    <h2>Editar Música</h2>
+    <input type="text" id="editTitulo" placeholder="Novo Título" required />
+    <input type="text" id="editArtista" placeholder="Novo Artista" required />
+    <input type="text" id="editGenero" placeholder="Novo Gênero" required />
+    <input type="number" id="editDuracao" placeholder="Nova Duração (segundos)" required />
+    
+    <div class="modal-buttons">
+      <button id="salvarEdicao">Salvar</button>
+      <button id="cancelarEdicao">Cancelar</button>
+    </div>
   </div>
 
   <script src="./js/main.js"></script>
+
+  <!-- Script para mostrar o nome do arquivo selecionado -->
+  <script>
+    document.querySelectorAll('.input-file-container input[type="file"]').forEach(input => {
+      input.addEventListener('change', () => {
+        const fileName = input.files.length ? input.files[0].name : 'Nenhum arquivo selecionado';
+        input.nextElementSibling.nextElementSibling.textContent = fileName;
+      });
+    });
+  </script>
 </body>
 </html>

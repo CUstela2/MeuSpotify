@@ -1,74 +1,287 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Corpo do site */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  padding: 20px;
+  background: #121212; /* fundo preto suave */
+  color: #dcdcdc; /* texto claro */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
-
-h1, h2 {
-  text-align: center;
-}
-
-form input, form label, form button {
-  display: block;
+/* Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(90deg, #2a2f45, #3b4670); /* gradiente azul suave */
+  color: #dcdcdc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  border-radius: 0 0 15px 15px;
   width: 100%;
-  margin: 8px 0;
+  max-width: 1200px;
+  margin-bottom: 30px;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
+.site-header .logo h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.social-icons a {
+  margin-left: 15px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.social-icons a img {
+  width: 28px;
+  height: 28px;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+/* Container geral */
+.container-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px 40px;
+}
+
+/* Colunas */
+.coluna {
+  background: #2a2f45; /* azul acinzentado */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  padding: 20px;
+  flex: 1 1 300px;
+  min-width: 280px;
+  color: #dcdcdc;
+}
+
+/* Títulos */
+h2 {
+  color: #dcdcdc;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3b4670;
+  padding-bottom: 6px;
+  font-weight: 600;
+}
+
+/* Formulários e inputs */
+form,
+#busca {
+  margin-bottom: 30px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border: 2px solid #3b4670;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #121212;
+  color: #dcdcdc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #505f8c;
+  outline: none;
+  box-shadow: 0 0 8px #505f8c88;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #dcdcdc;
+}
+
+/* Input file */
+.input-file-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input-file-container input[type="file"] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  z-index: -1;
+}
+
+.input-file-container label {
+  display: inline-block;
+  width: 100%;
+  background: #3b4670;
+  color: #dcdcdc;
+  padding: 12px 0;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  border-radius: 4px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-file-container label:hover {
+  background: #505f8c;
+  box-shadow: 0 6px 12px #505f8c66;
+}
+
+.input-file-container .file-name {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #dcdcdc;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Botões padrão */
+button {
+  background: #3b4670;
+  color: #dcdcdc;
+  border: none;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px #2a2f45aa;
+  flex: 1;
+  margin: 0 5px;
+  min-width: 100px;
+  max-width: 150px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background: #505f8c;
+  box-shadow: 0 6px 12px #505f8c66;
 }
 
-#musicaList {
-  list-style-type: none;
-  padding: 0;
-}
-
-.musica-item {
+/* Lista de músicas */
+ul#musicaList {
+  list-style: none;
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #3b4670;
+  border-radius: 8px;
   padding: 10px;
-  margin-bottom: 10px;
-  background: #e9ecef;
-  border-radius: 4px;
+  background: #2a2f45;
+  color: #dcdcdc;
+}
+
+ul#musicaList li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #3b4670;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.musica-item img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
+ul#musicaList li:hover {
+  background: #505f8c44;
 }
 
-.musica-item div {
-  flex-grow: 1;
+/* Scrollbar customizada */
+ul#musicaList::-webkit-scrollbar {
+  width: 8px;
 }
 
-.musica-item button {
-  background-color: #28a745;
-  width: 80px;
-  padding: 6px;
+ul#musicaList::-webkit-scrollbar-track {
+  background: #121212;
+  border-radius: 8px;
 }
 
-.musica-item button:hover {
-  background-color: #19692c;
+ul#musicaList::-webkit-scrollbar-thumb {
+  background: #3b4670;
+  border-radius: 8px;
+}
+
+/* Modal de edição */
+#editModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2a2f45;
+  border: 2px solid #3b4670;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+  color: #dcdcdc;
+}
+
+#editModal input[type="text"],
+#editModal input[type="number"] {
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #3b4670;
+  border-radius: 6px;
+  background: #121212;
+  color: #dcdcdc;
+}
+
+#editModal .modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+#editModal button {
+  flex: 1;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .container-horizontal {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .coluna {
+    width: 90%;
+  }
+
+  #busca {
+    flex-direction: column;
+  }
+
+  .busca-grupo {
+    flex: 1 1 100%;
+  }
+
+  button {
+    max-width: 100%;
+    margin: 5px 0;
+  }
 }
