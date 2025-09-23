@@ -51,7 +51,7 @@ namespace CRUD_Musica.Controllers
             return Ok(musica);
         }
         [HttpPut("UpdateMusicByTitle/{titulo}")]
-        public IActionResult AtualizarMusica(string titulo, MusicaMetadataUpdateDto musicaAtualizada)
+        public IActionResult AtualizarMusica(string titulo, [FromBody] MusicaMetadataUpdateDto musicaAtualizada)
         {
             var musica = _context.Musicas.FirstOrDefault(m => m.Titulo == titulo);
             if (musica == null) return NotFound();
@@ -155,7 +155,76 @@ namespace CRUD_Musica.Controllers
             {
                 FileDownloadName = $"{musica.Titulo}.mp3"
             };
+
         }
+        // ------- MÉTODOS DE COMPRESSÃO/DESCOMPRESSÃO PARA FOTO DO ARTISTA --------
+        private byte[] CompressPhoto(byte[] data)
+        {
+            using var compressedStream = new MemoryStream();
+            using (var gzipStream = new System.IO.Compression.GZipStream(compressedStream, System.IO.Compression.CompressionMode.Compress))
+            {
+                gzipStream.Write(data, 0, data.Length);
+            }
+            return compressedStream.ToArray();
+        }
+
+        private byte[] DecompressPhoto(byte[] compressedData)
+        {
+            using var compressedStream = new MemoryStream(compressedData);
+            using var gzipStream = new System.IO.Compression.GZipStream(compressedStream, System.IO.Compression.CompressionMode.Decompress);
+            using var resultStream = new MemoryStream();
+            gzipStream.CopyTo(resultStream);
+            return resultStream.ToArray();
+        }
+
+        // -------- LISTAR ARTISTAS --------
+        [HttpGet("ListArtists")]
+        public IActionResult ListarArtistas()
+        {
+            var artistas = _context.Artistas.ToList();
+            return Ok(artistas);
+        }
+
+        // -------- BUSCAR FOTO DO ARTISTA --------
+        [HttpGet("GetPhoto/{id}")]
+        public IActionResult GetPhoto(int id)
+        {
+            var artista = _context.Artistas.Find(id);
+            if (artista == null || artista.FotoComprimida == null)
+                return NotFound();
+
+            var fotoDescomprimida = DecompressPhoto(artista.FotoComprimida);
+
+            // Ajuste o content-type conforme o formato da imagem (jpeg, png...)
+            return File(fotoDescomprimida, "image/jpeg");
+        }
+
+        // -------- ADICIONAR ARTISTA COM FOTO --------
+        [HttpPost("AddArtistWithPhoto")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AdicionarArtistaComFoto([FromForm] ArtistaUploadDto artistaDto)
+        {
+            byte[] fotoComprimida = null;
+            if (artistaDto.Foto != null)
+            {
+                using var ms = new MemoryStream();
+                await artistaDto.Foto.CopyToAsync(ms);
+                fotoComprimida = CompressPhoto(ms.ToArray());
+            }
+
+            var artista = new Artista
+            {
+                Nome = artistaDto.Nome,
+                FotoComprimida = fotoComprimida
+                // outros campos, se existirem
+            };
+
+            _context.Artistas.Add(artista);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(ListarArtistas), new { id = artista.Id }, artista);
+        }
+
 
 
     }

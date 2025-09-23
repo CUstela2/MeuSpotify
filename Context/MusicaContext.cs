@@ -12,5 +12,6 @@ namespace CRUD_Musica.Context
         public MusicaContext(DbContextOptions<MusicaContext> options) : base(options)
         { }
         public DbSet<Musica> Musicas { get; set; }
+        public DbSet<Artista> Artistas { get; set; }
     }
 }

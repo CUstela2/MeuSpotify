@@ -1,0 +1,371 @@
+/* Reset e fonte */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: #121212;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #181818;
+  border-bottom: 1px solid #282828;
+}
+
+.site-header h1 {
+  font-size: 1.5rem;
+  color: #1DB954;
+}
+
+.site-header .social-icons a {
+  margin-left: 15px;
+}
+
+.site-header .social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.2s ease;
+}
+
+.site-header .social-icons img:hover {
+  transform: scale(1.2);
+  filter: brightness(0) invert(1) drop-shadow(0 0 5px #1DB954);
+}
+
+/* Layout principal */
+.container-horizontal {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+}
+
+/* Colunas */
+.coluna {
+  flex: 1;
+  background: #181818;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.coluna h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #fff;
+  border-bottom: 1px solid #282828;
+  padding-bottom: 8px;
+}
+
+/* Busca */
+.busca-grupo input,
+.busca-grupo button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95rem;
+  background: #282828;
+  color: #fff;
+}
+
+.busca-grupo input::placeholder {
+  color: #aaa;
+}
+
+.busca-grupo button {
+  cursor: pointer;
+  background: #282828;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.busca-grupo button:hover {
+  background: #1DB954;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* Botão Listar Todas */
+#btnListarTudo {
+  background: #1DB954;
+  color: #000;
+  font-weight: bold;
+  width: 100%;
+  padding: 10px;
+  border-radius: 30px;
+}
+
+#btnListarTudo:hover {
+  background: #1ed760;
+  transform: scale(1.03);
+}
+
+/* ---------- LISTA DE MÚSICAS ---------- */
+#musicaList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+#musicaList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #282828;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background 0.2s ease;
+}
+
+#musicaList li:hover {
+  background: #333;
+}
+
+/* Capa */
+#musicaList li img {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Info da música */
+.musica-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.musica-info .titulo {
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica-info .artista {
+  font-size: 0.9rem;
+  color: #aaa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musica-info .genero {
+  font-size: 0.8rem;
+  color: #bbb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Duração */
+.musica-duracao {
+  font-size: 0.9rem;
+  color: #bbb;
+  text-align: center;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+/* Ações */
+.musica-acoes {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.musica-acoes button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  background: #282828;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.musica-acoes button:hover {
+  background: #1DB954;
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* ---------- AUDIO PLAYER ---------- */
+#audioPlayer {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 12px;
+  background: #181818;
+  padding: 6px;
+}
+
+#audioPlayer::-webkit-media-controls-panel {
+  background: #282828;
+  border-radius: 12px;
+  color: #fff;
+}
+
+#audioPlayer::-webkit-media-controls-play-button,
+#audioPlayer::-webkit-media-controls-pause-button,
+#audioPlayer::-webkit-media-controls-next-track-button,
+#audioPlayer::-webkit-media-controls-previous-track-button {
+  background: #1DB954;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  position: relative;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#audioPlayer::-webkit-media-controls-play-button:hover,
+#audioPlayer::-webkit-media-controls-pause-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #1ed760;
+}
+
+#audioPlayer::-webkit-media-controls-current-time-display,
+#audioPlayer::-webkit-media-controls-time-remaining-display {
+  color: #ccc;
+  font-size: 0.8rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #282828;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1DB954;
+}
+/* ---------- SUGESTÕES ---------- */
+.sugestoes-container {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #282828;
+}
+
+.sugestoes-container h3 {
+  color: #1DB954;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.sugestoes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-sugestao {
+  display: flex;
+  align-items: center;
+  background: #282828;
+  border-radius: 8px;
+  padding: 10px;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.card-sugestao:hover {
+  background: #333;
+}
+
+.card-sugestao img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.info-sugestao {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.titulo-sugestao {
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artista-sugestao {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+.sugestoes-artistas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-artista {
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.card-artista img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-artista p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-artista:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #1DB954;
+}
+
