@@ -44,12 +44,13 @@ namespace CRUD_Musica.Controllers
         }
 
         [HttpGet("GetMusicByArtist/{artista}")]
-        public IActionResult ObterMusicaPorArtista(string artista)
+        public IActionResult ObterMusicasPorArtista(string artista)
         {
-            var musica = _context.Musicas.FirstOrDefault(m => m.Artista == artista);
-            if (musica == null) return NotFound();
-            return Ok(musica);
+            var musicas = _context.Musicas.Where(m => m.Artista == artista).ToList();
+            if (musicas == null || musicas.Count == 0) return NotFound();
+            return Ok(musicas);
         }
+
         [HttpPut("UpdateMusicByTitle/{titulo}")]
         public IActionResult AtualizarMusica(string titulo, [FromBody] MusicaMetadataUpdateDto musicaAtualizada)
         {

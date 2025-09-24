@@ -57,22 +57,32 @@ uploadForm.addEventListener('submit', async (e) => {
 });
 
 // ------------------- ADICIONAR ARTISTA -------------------
+// ------------------- ADICIONAR ARTISTA -------------------
 formAdicionarArtista.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-
     formData.append('Nome', document.getElementById('artistaNome').value);
 
     const fotoInput = document.getElementById('artistaFoto');
-    if (fotoInput.files.length > 0) formData.append('Foto', fotoInput.files[0]);
+    if (fotoInput.files.length > 0) {
+        formData.append('Foto', fotoInput.files[0]);
+    }
 
     try {
-        const res = await fetch(urls.urlAdicionarArtista, { method: 'POST', body: formData });
-        if (!res.ok) throw new Error('Erro ao enviar artista');
+        const res = await fetch(urls.urlAdicionarArtista, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!res.ok) {
+            const erroText = await res.text();
+            throw new Error(`Erro na API: ${res.status} - ${erroText}`);
+        }
+
         alert('Artista enviado com sucesso!');
         formAdicionarArtista.reset();
-        // Aqui você pode carregar lista de artistas se quiser (implemente depois)
+        // Você pode chamar carregarArtistas() aqui no futuro, se quiser
     } catch (error) {
         alert(error.message);
     }
@@ -86,6 +96,9 @@ async function carregarMusicas() {
         if (!res.ok) throw new Error('Erro ao carregar músicas');
         const musicas = await res.json();
 
+        // Ordenar as músicas por título (alfabética)
+        musicas.sort((a, b) => a.titulo.localeCompare(b.titulo, 'pt-BR', { sensitivity: 'base' }));
+
         musicas.forEach(musica => {
             const li = criarLiMusica(musica);
             musicaList.appendChild(li);
@@ -94,6 +107,7 @@ async function carregarMusicas() {
         musicaList.innerHTML = `<li>Erro ao carregar músicas</li>`;
     }
 }
+
 
 // ------------------- CRIAR LI DA MÚSICA -------------------
 function criarLiMusica(musica) {

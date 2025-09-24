@@ -18,16 +18,32 @@ const btnBuscarTitulo = document.getElementById('btnBuscarTitulo');
 const btnBuscarArtista = document.getElementById('btnBuscarArtista');
 const btnListarTudo = document.getElementById('btnListarTudo');
 
+const sugestoesLista = document.getElementById('sugestoesLista');
+const sugestoesArtistasContainer = document.getElementById('sugestoesArtistas');
+
+let todasMusicasCache = []; // Guardar todas músicas carregadas para usar nas sugestões
+
+// ------------------- LISTAR MÚSICAS -------------------
 // ------------------- LISTAR MÚSICAS -------------------
 async function carregarMusicas() {
     musicaList.innerHTML = '';
     try {
         const res = await fetch(urls.urlListar);
         if (!res.ok) throw new Error('Erro ao carregar músicas');
-        const musicas = await res.json();
+        let musicas = await res.json();
+
+        // Embaralha as músicas para a lista principal também
+        musicas = musicas
+            .map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+
+        todasMusicasCache = musicas;  // Guardar cache das músicas para sugestões
         mostrarMusicas(musicas);
+        mostrarSugestoesAleatorias(musicas);  // Atualiza as sugestões junto
     } catch (error) {
         musicaList.innerHTML = `<li>Erro ao carregar músicas</li>`;
+        sugestoesLista.innerHTML = ''; // limpa sugestões em erro
     }
 }
 
@@ -92,6 +108,7 @@ async function tocarMusica(id) {
 }
 
 // ------------------- BUSCA -------------------
+// Buscar música por título
 btnBuscarTitulo.addEventListener('click', async () => {
     const titulo = buscarTituloInput.value.trim();
     if (!titulo) return carregarMusicas();
@@ -105,46 +122,34 @@ btnBuscarTitulo.addEventListener('click', async () => {
     }
 });
 
+// Buscar música(s) por artista usando a nova função
 btnBuscarArtista.addEventListener('click', async () => {
     const artista = buscarArtistaInput.value.trim();
     if (!artista) return carregarMusicas();
-    try {
-        const res = await fetch(urls.urlBuscarPorArtista(artista));
-        if (!res.ok) throw new Error('Música não encontrada');
-        const musica = await res.json();
-        mostrarMusicas([musica]);
-    } catch (error) {
-        musicaList.innerHTML = `<li>${error.message}</li>`;
-    }
+    buscarMusicasPorArtista(artista);
 });
 
 btnListarTudo.addEventListener('click', carregarMusicas);
 
-// ------------------- INICIAL -------------------
-carregarMusicas();
-const sugestoesLista = document.getElementById('sugestoesLista');
-
-let todasMusicasCache = []; // Guardar todas músicas carregadas para usar nas sugestões
-
-// ------------------- LISTAR MÚSICAS -------------------
-async function carregarMusicas() {
+// ------------------- BUSCAR MÚSICAS POR ARTISTA -------------------
+async function buscarMusicasPorArtista(artistaNome) {
     musicaList.innerHTML = '';
     try {
-        const res = await fetch(urls.urlListar);
-        if (!res.ok) throw new Error('Erro ao carregar músicas');
+        const res = await fetch(urls.urlBuscarPorArtista(artistaNome));
+        if (!res.ok) throw new Error('Músicas não encontradas');
         const musicas = await res.json();
-        todasMusicasCache = musicas;  // Guardar cache das músicas para sugestões
-        mostrarMusicas(musicas);
-        mostrarSugestoesAleatorias(musicas);  // Atualiza as sugestões junto
+
+        // Certificar que musicas é array (caso a API retorne um único objeto)
+        const listaMusicas = Array.isArray(musicas) ? musicas : [musicas];
+        mostrarMusicas(listaMusicas);
     } catch (error) {
-        musicaList.innerHTML = `<li>Erro ao carregar músicas</li>`;
-        sugestoesLista.innerHTML = ''; // limpa sugestões em erro
+        musicaList.innerHTML = `<li>${error.message}</li>`;
     }
 }
 
 // ------------------- MOSTRAR SUGESTÕES ALEATÓRIAS -------------------
 function mostrarSugestoesAleatorias(musicas) {
-    const numeroSugestoes = 4; // Quantas sugestões mostrar
+    const numeroSugestoes = 3; // Limite ajustado para 3 sugestões
     sugestoesLista.innerHTML = '';
 
     if (!musicas.length) {
@@ -184,20 +189,18 @@ function mostrarSugestoesAleatorias(musicas) {
         card.appendChild(img);
         card.appendChild(infoDiv);
 
-        // Opcional: clicar na sugestão toca a música
+        // Clicar na sugestão toca a música
         card.addEventListener('click', () => {
             tocarMusica(musica.id);
         });
 
         sugestoesLista.appendChild(card);
     });
-}const sugestoesArtistasContainer = document.getElementById('sugestoesArtistas');
+}
 
-// URL para listar artistas (troque conforme seu backend)
-const urlListarArtistas = `http://localhost:5173/api/Artista/ListArtists`;
-
-// URL para buscar foto do artista, exemplo:
-const urlFotoArtista = (id) => `http://localhost:5173/api/Artista/GetPhoto/${id}`;
+// ------------------- ARTISTAS -------------------
+const urlListarArtistas = `http://localhost:5173/api/Musica/ListArtists`;
+const urlFotoArtista = (id) => `http://localhost:5173/api/Musica/GetPhoto/${id}`;
 
 // Função para carregar e mostrar artistas
 async function carregarArtistas() {
@@ -207,10 +210,9 @@ async function carregarArtistas() {
         if (!res.ok) throw new Error('Erro ao carregar artistas');
         let artistas = await res.json();
 
-        // Embaralha o array para ficar aleatório
+        // Embaralhar artistas para aleatoriedade
         artistas = artistas.sort(() => Math.random() - 0.5);
 
-        // Limita a quantidade de artistas mostrados (ex: 6)
         artistas.slice(0, 6).forEach(artista => {
             const card = document.createElement('div');
             card.className = 'card-artista';
@@ -225,6 +227,11 @@ async function carregarArtistas() {
             card.appendChild(img);
             card.appendChild(nome);
 
+            // Evento de clique: filtrar músicas pelo artista clicado
+            card.addEventListener('click', () => {
+                buscarMusicasPorArtista(artista.nome);
+            });
+
             sugestoesArtistasContainer.appendChild(card);
         });
     } catch (error) {
@@ -232,6 +239,6 @@ async function carregarArtistas() {
     }
 }
 
-// Chama para carregar quando o script rodar
+// ------------------- INICIALIZAÇÃO -------------------
+carregarMusicas();
 carregarArtistas();
-
