@@ -3,9 +3,9 @@ using CRUD_Musica.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configurar o DbContext para usar SQLite
 builder.Services.AddDbContext<MusicaContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite("Data Source=musica.db"));
 
 builder.Services.AddControllers();
 

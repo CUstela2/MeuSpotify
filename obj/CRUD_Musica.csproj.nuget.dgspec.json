@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\426115624\\Documents\\CRUD_Musica\\CRUD_Musica.csproj": {}
+    "C:\\Users\\426115624\\Documents\\Spotify FIrebase\\MeuSpotify\\CRUD_Musica.csproj": {}
   },
   "projects": {
-    "C:\\Users\\426115624\\Documents\\CRUD_Musica\\CRUD_Musica.csproj": {
+    "C:\\Users\\426115624\\Documents\\Spotify FIrebase\\MeuSpotify\\CRUD_Musica.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\426115624\\Documents\\CRUD_Musica\\CRUD_Musica.csproj",
+        "projectUniqueName": "C:\\Users\\426115624\\Documents\\Spotify FIrebase\\MeuSpotify\\CRUD_Musica.csproj",
         "projectName": "CRUD_Musica",
-        "projectPath": "C:\\Users\\426115624\\Documents\\CRUD_Musica\\CRUD_Musica.csproj",
+        "projectPath": "C:\\Users\\426115624\\Documents\\Spotify FIrebase\\MeuSpotify\\CRUD_Musica.csproj",
         "packagesPath": "C:\\Users\\426115624\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\426115624\\Documents\\CRUD_Musica\\obj\\",
+        "outputPath": "C:\\Users\\426115624\\Documents\\Spotify FIrebase\\MeuSpotify\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\426115624\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -50,6 +50,16 @@
               "version": "[9.0.9, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.9, )"
             },
